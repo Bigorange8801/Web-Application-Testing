@@ -1,26 +1,64 @@
 import React from 'react';
-import logo from './logo.svg';
+import Dashboard from './components/Dashboard';
+import Display from './components/Display';
+
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  state = { balls: 0, strikes: 0 };
+
+   foulBall = () => {
+    let strikes = this.state.strikes;
+    if (strikes < 2) {
+      strikes++;
+      this.setState({ strikes });
+    }
+  };
+
+   endBatter = () => {
+    this.setState({ balls: 0, strikes: 0 });
+  };
+
+   countStrike = () => {
+    let strikes = this.state.strikes;
+    if (strikes < 2) {
+      strikes++;
+      this.setState({ strikes });
+    } else {
+      this.endBatter();
+    }
+  };
+
+   countBall = () => {
+    let balls = this.state.balls;
+    if (balls < 3) {
+      balls++;
+      this.setState({ balls });
+    } else {
+      this.endBatter();
+    }
+  };
+
+   render() {
+    return (
+      <div className="App">
+        <section>
+          <div>
+            <label>Strikes: {this.state.strikes}</label>
+          </div>
+          <div>
+            <label>Balls: {this.state.balls}</label>
+          </div>
+        </section>
+        <section>
+          <button onClick={() => this.countStrike()}>Strike</button>
+          <button onClick={() => this.countBall()}>Ball</button>
+          <button onClick={() => this.foulBall()}>Foul</button>
+          <button onClick={() => this.endBatter()}>Hit</button>
+        </section>
+      </div>
+    );
+  }
 }
 
-export default App;
+ export default App;
